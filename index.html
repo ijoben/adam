@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam | Web Developer & UI/UX Designer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+            --accent-from: #6366f1;
+            --accent-to: #8b5cf6;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        .dark {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+        }
+        
+        .gradient-border {
+            position: relative;
+            background: var(--bg-primary);
+            border-radius: 1rem;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .dark .nav-blur {
+            background: rgba(15, 23, 42, 0.7);
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 nav-blur border-b border-[var(--border)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold gradient-text">ADAM</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Home</a>
+                    <a href="#about" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">About</a>
+                    <a href="#services" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Services</a>
+                    <a href="#portfolio" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Portfolio</a>
+                    <a href="#testimonials" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Testimoni</a>
+                    <a href="#contact" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Contact</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors">
+                        <i class="fas fa-moon text-xl text-[var(--text-primary)]" id="theme-icon"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors">
+                        <i class="fas fa-bars text-xl text-[var(--text-primary)]"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border)] bg-[var(--bg-primary)]">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#home" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Home</a>
+                <a href="#about" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">About</a>
+                <a href="#services" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Services</a>
+                <a href="#portfolio" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Portfolio</a>
+                <a href="#testimonials" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Testimoni</a>
+                <a href="#contact" class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="blob w-96 h-96 bg-purple-500 top-10 -left-20"></div>
+        <div class="blob w-96 h-96 bg-blue-500 bottom-10 -right-20"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="slide-in-left space-y-6">
+                    <div class="inline-block">
+                        <span class="px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border)] text-sm font-medium text-[var(--text-secondary)]">
+                            <i class="fas fa-code mr-2 gradient-text"></i>
+                            Available for New Projects
+                        </span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight">
+                        Halo, Saya<br>
+                        <span class="gradient-text">Adam</span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)] leading-relaxed">
+                        "Bikin bisnismu dan ciptakan cuanmu sendiri"<br>
+                        Web Developer & UI/UX Designer Profesional yang siap bantu wujudkan website impian Anda.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#contact" class="gradient-bg text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-lg">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Hubungi Saya
+                        </a>
+                        <a href="#portfolio" class="px-8 py-4 rounded-xl font-semibold border-2 border-[var(--border)] hover:bg-[var(--bg-secondary)] transition-all hover:scale-105">
+                            <i class="fas fa-eye mr-2"></i>
+                            Lihat Portfolio
+                        </a>
+                    </div>
+                    
+                    <div class="flex items-center gap-6 pt-6">
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">50+</p>
+                            <p class="text-sm text-[var(--text-secondary)]">Project Selesai</p>
+                        </div>
+                        <div class="w-px h-12 bg-[var(--border)]"></div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">5+</p>
+                            <p class="text-sm text-[var(--text-secondary)]">Tahun Pengalaman</p>
+                        </div>
+                        <div class="w-px h-12 bg-[var(--border)]"></div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">98%</p>
+                            <p class="text-sm text-[var(--text-secondary)]">Client Satisfied</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-in-right relative hidden lg:block">
+                    <div class="relative animate-float">
+                        <div class="gradient-border p-1 rounded-3xl">
+                            <div class="bg-[var(--bg-secondary)] rounded-3xl p-8">
+                                <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=600&h=600&fit=crop" alt="Developer" class="rounded-2xl w-full">
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 card rounded-2xl p-4 shadow-2xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-trophy text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-[var(--text-primary)]">Top Rated</p>
+                                    <p class="text-xs text-[var(--text-secondary)]">Web Developer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 lg:py-32 bg-[var(--bg-secondary)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop" alt="About" class="rounded-3xl shadow-2xl">
+                </div>
+                
+                <div class="reveal space-y-6">
+                    <span class="inline-block px-4 py-2 rounded-full bg-[var(--bg-primary)] border border-[var(--border)] text-sm font-medium gradient-text">
+                        Tentang Saya
+                    </span>
+                    
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+                        Membangun Website yang <span class="gradient-text">Berkualitas</span>
+                    </h2>
+                    
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Saya Adam, web developer dan UI/UX designer dengan pengalaman 5+ tahun membantu klien dari startup hingga perusahaan besar. Fokus saya adalah menciptakan solusi digital yang tidak hanya indah secara visual, tetapi juga memberikan hasil nyata untuk bisnis Anda.
+                    </p>
+                    
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Setiap project saya kerjakan dengan pendekatan data-driven, performa optimal, dan user experience terbaik. Dari landing page yang konvert hingga aplikasi web kompleks, saya siap mewujudkan visi digital Anda.
+                    </p>
+                    
+                    <div class="space-y-3 pt-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 gradient-bg rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <span class="text-[var(--text-primary)] font-medium">Responsive & Mobile-First Design</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 gradient-bg rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <span class="text-[var(--text-primary)] font-medium">SEO Optimized & Fast Loading</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 gradient-bg rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <span class="text-[var(--text-primary)] font-medium">Clean Code & Maintainable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="inline-block px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border)] text-sm font-medium gradient-text mb-4">
+                    Layanan Saya
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+                    Solusi Lengkap untuk <span class="gradient-text">Bisnis Digital</span> Anda
+                </h2>
+                <p class="text-[var(--text-secondary)] text-lg">
+                    Dari konsep hingga launch, saya menyediakan layanan end-to-end untuk kebutuhan digital Anda
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Service 1 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Web Development</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Website custom dengan teknologi modern. Cepat, aman, dan scalable untuk pertumbuhan bisnis Anda.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Next.js</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Laravel</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">WordPress</span>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">UI/UX Design</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Design interface yang intuitif dan user-centric. Meningkatkan engagement dan konversi pengunjung.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Figma</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Prototype</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Wireframe</span>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Landing Page</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Landing page high-converting untuk campaign, product launch, atau lead generation.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">CRO</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">A/B Testing</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Analytics</span>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">E-Commerce</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Toko online lengkap dengan payment gateway, manajemen produk, dan dashboard analytics.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Shopify</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">WooCommerce</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Custom</span>
+                    </div>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-building text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Company Profile</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Website company profile profesional untuk membangun kredibilitas dan kepercayaan klien.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">CMS</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Multi-Bahasa</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Blog</span>
+                    </div>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="reveal card rounded-2xl p-8 space-y-4">
+                    <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center">
+                        <i class="fas fa-search text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">SEO Optimization</h3>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        Optimasi SEO on-page dan technical untuk meningkatkan ranking website di Google.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Keyword</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Speed</span>
+                        <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Schema</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="py-20 bg-[var(--bg-secondary)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-3">Tech Stack & Tools</h2>
+                <p class="text-[var(--text-secondary)]">Teknologi modern yang saya gunakan untuk project Anda</p>
+            </div>
+            
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 reveal">
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-react text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">React</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-vuejs text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">Vue.js</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-node-js text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">Node.js</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-laravel text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">Laravel</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-figma text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">Figma</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-wordpress text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">WordPress</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-git-alt text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">Git</span>
+                </div>
+                <div class="card rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:scale-110 transition-transform">
+                    <i class="fab fa-aws text-4xl gradient-text"></i>
+                    <span class="text-xs font-medium">AWS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="inline-block px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border)] text-sm font-medium gradient-text mb-4">
+                    Portfolio
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+                    Project <span class="gradient-text">Terbaru</span> Saya
+                </h2>
+                <p class="text-[var(--text-secondary)] text-lg">
+                    Beberapa project pilihan yang telah saya kerjakan untuk berbagai klien
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" alt="Project 1" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">E-Commerce Platform</p>
+                                    <p class="text-xs opacity-80">Next.js, Tailwind, Stripe</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Fashion Store Online</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                Platform e-commerce modern dengan fitur lengkap dan payment integration.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">E-Commerce</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">React</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop" alt="Project 2" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">SaaS Dashboard</p>
+                                    <p class="text-xs opacity-80">Vue.js, Laravel, MySQL</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Analytics Dashboard</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                Dashboard analytics real-time untuk startup SaaS dengan visualisasi data.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">SaaS</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Vue</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop" alt="Project 3" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">Company Profile</p>
+                                    <p class="text-xs opacity-80">WordPress, Elementor</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Konsultan Hukum</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                Website company profile dengan CMS untuk firma hukum terkemuka.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Corporate</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">WP</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop" alt="Project 4" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">Landing Page</p>
+                                    <p class="text-xs opacity-80">HTML, CSS, JS</p>
+                                </div>
+                            </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Product Launch</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                Landing page dengan optimasi konversi tinggi untuk product launch.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Landing</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">CRO</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&h=600&fit=crop" alt="Project 5" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">Mobile App UI</p>
+                                    <p class="text-xs opacity-80">Figma, Design System</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Fintech App Design</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                UI/UX design untuk aplikasi fintech dengan fokus user experience.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">UI/UX</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Mobile</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="reveal group">
+                    <div class="card rounded-2xl overflow-hidden">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=600&fit=crop" alt="Project 6" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-sm font-medium mb-1">Web Application</p>
+                                    <p class="text-xs opacity-80">React, Node.js, MongoDB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">CRM System</h3>
+                            <p class="text-[var(--text-secondary)] text-sm mb-4">
+                                Sistem CRM custom untuk manajemen customer dan sales pipeline.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">Web App</span>
+                                    <span class="px-3 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs">CRM</span>
+                                </div>
+                                <a href="#" class="text-[var(--accent-from)] hover:text-[var(--accent-to)] transition-colors">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 lg:py-32 bg-[var(--bg-secondary)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="inline-block px-4 py-2 rounded-full bg-[var(--bg-primary)] border border-[var(--border)] text-sm font-medium gradient-text mb-4">
+                    Testimoni Klien
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+                    Apa Kata <span class="gradient-text">Klien</span> Saya
+                </h2>
+                <p class="text-[var(--text-secondary)] text-lg">
+                    Kepercayaan dan kepuasan klien adalah prioritas utama saya
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="reveal card rounded-2xl p-8 space-y-6">
+                    <div class="flex gap-1">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        "Website yang dibuat sangat profesional dan melebihi ekspektasi. Sales kami meningkat 300% setelah launch. Proses komunikasinya juga sangat lancar!"
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://i.pravatar.cc/100?img=1" alt="Client 1" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <p class="font-bold">Budi Santoso</p>
+                            <p class="text-sm text-[var(--text-secondary)]">CEO, Fashion Store</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="reveal card rounded-2xl p-8 space-y-6">
+                    <div class="flex gap-1">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        "Sangat puas dengan hasil kerja dan pelayanannya. Designnya modern, loading cepat, dan SEO-friendly. Recommended banget untuk yang butuh web developer!"
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://i.pravatar.cc/100?img=5" alt="Client 2" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <p class="font-bold">Sarah Wijaya</p>
+                            <p class="text-sm text-[var(--text-secondary)]">Founder, SaaS Startup</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="reveal card rounded-2xl p-8 space-y-6">
+                    <div class="flex gap-1">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <p class="text-[var(--text-secondary)] leading-relaxed">
+                        "Profesional, responsive, dan hasilnya sangat memuaskan. Website company profile kami jadi lebih kredibel dan dapat banyak leads. Terima kasih!"
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://i.pravatar.cc/100?img=12" alt="Client 3" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <p class="font-bold">Ahmad Rizki</p>
+                            <p class="text-sm text-[var(--text-secondary)]">Direktur, Law Firm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="reveal space-y-6">
+                    <span class="inline-block px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border)] text-sm font-medium gradient-text">
+                        Hubungi Saya
+                    </span>
+                    
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+                        Mari Diskusikan <span class="gradient-text">Project Anda</span>
+                    </h2>
+                    
+                    <p class="text-[var(--text-secondary)] text-lg leading-relaxed">
+                        Punya ide project? Atau butuh konsultasi gratis? Saya siap membantu mewujudkan website impian Anda. Hubungi saya sekarang!
+                    </p>
+                    
+                    <div class="space-y-4 pt-6">
+                        <a href="mailto:ijobenz@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors group">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--text-secondary)]">Email</p>
+                                <p class="font-semibold">ijobenz@gmail.com</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://wa.me/6282249574471" class="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors group">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fab fa-whatsapp text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--text-secondary)]">WhatsApp</p>
+                                <p class="font-semibold">082249574471</p>
+                            </div>
+                        </a>
+                        
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-secondary)]">
+                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-[var(--text-secondary)]">Lokasi</p>
+                                <p class="font-semibold">Jakarta, Indonesia</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-6">
+                        <p class="text-sm text-[var(--text-secondary)] mb-4">Follow Saya:</p>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] hover:gradient-bg hover:text-white transition-all flex items-center justify-center group">
+                                <i class="fab fa-linkedin-in text-[var(--text-secondary)] group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] hover:gradient-bg hover:text-white transition-all flex items-center justify-center group">
+                                <i class="fab fa-github text-[var(--text-secondary)] group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] hover:gradient-bg hover:text-white transition-all flex items-center justify-center group">
+                                <i class="fab fa-instagram text-[var(--text-secondary)] group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] hover:gradient-bg hover:text-white transition-all flex items-center justify-center group">
+                                <i class="fab fa-dribbble text-[var(--text-secondary)] group-hover:text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal">
+                    <div class="card rounded-2xl p-8">
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Nama Lengkap</label>
+                                <input type="text" placeholder="Nama Anda" required
+                                    class="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] transition-all">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Email</label>
+                                <input type="email" placeholder="email@example.com" required
+                                    class="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] transition-all">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">No. WhatsApp</label>
+                                <input type="tel" placeholder="08xxxxxxxxxx" required
+                                    class="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] transition-all">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Jenis Layanan</label>
+                                <select required class="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] transition-all">
+                                    <option value="">Pilih Layanan</option>
+                                    <option value="web-dev">Web Development</option>
+                                    <option value="ui-ux">UI/UX Design</option>
+                                    <option value="landing">Landing Page</option>
+                                    <option value="ecommerce">E-Commerce</option>
+                                    <option value="company">Company Profile</option>
+                                    <option value="other">Lainnya</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Pesan</label>
+                                <textarea rows="4" placeholder="Ceritakan tentang project Anda..." required
+                                    class="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] transition-all resize-none"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full gradient-bg text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-lg">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--bg-secondary)] border-t border-[var(--border)] py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold gradient-text">ADAM</h3>
+                    <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
+                        Web Developer & UI/UX Designer profesional membantu bisnis Anda tumbuh dengan solusi digital terbaik.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors text-sm">About</a></li>
+                        <li><a href="#services" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors text-sm">Services</a></li>
+                        <li><a href="#portfolio" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors text-sm">Portfolio</a></li>
+                        <li><a href="#contact" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li class="text-[var(--text-secondary)] text-sm">Web Development</li>
+                        <li class="text-[var(--text-secondary)] text-sm">UI/UX Design</li>
+                        <li class="text-[var(--text-secondary)] text-sm">E-Commerce</li>
+                        <li class="text-[var(--text-secondary)] text-sm">Company Profile</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="text-[var(--text-secondary)] text-sm flex items-center gap-2">
+                            <i class="fas fa-envelope text-[var(--accent-from)]"></i>
+                            ijobenz@gmail.com
+                        </li>
+                        <li class="text-[var(--text-secondary)] text-sm flex items-center gap-2">
+                            <i class="fab fa-whatsapp text-[var(--accent-from)]"></i>
+                            082249574471
+                        </li>
+                        <li class="text-[var(--text-secondary)] text-sm flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-[var(--accent-from)]"></i>
+                            Jakarta, Indonesia
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-[var(--border)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[var(--text-secondary)] text-sm text-center md:text-left">
+                    © 2024 Adam. All rights reserved.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-from)] transition-colors">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 gradient-bg text-white rounded-xl shadow-lg hover:scale-110 transition-all opacity-0 pointer-events-none z-40">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Contact Form Submission
+        const contactForm = document.getElementById('contact-form');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            
+            // Show success message
+            alert('Terima kasih! Pesan Anda telah terkirim. Saya akan segera menghubungi Anda.');
+            
+            // Reset form
+            contactForm.reset();
+        });
+        
+        // Navbar shadow on scroll
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>
